@@ -1,0 +1,10 @@
+name: PixelBattle
+version: '1.0-SNAPSHOT'
+main: com.github.laefye.pixelbattle.PixelBattlePlugin
+api-version: 1.19
+author: Laefye
+softdepend:
+  - PlaceholderAPI
+commands:
+  pixelbattle:
+    permission: pixelbattle.pixelbattle
