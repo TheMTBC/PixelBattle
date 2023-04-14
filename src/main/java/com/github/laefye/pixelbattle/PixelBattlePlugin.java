@@ -4,6 +4,7 @@ import com.github.laefye.pixelbattle.abstracts.Menu;
 import com.github.laefye.pixelbattle.async.AsyncBuilder;
 import com.github.laefye.pixelbattle.commands.PixelBattleCommand;
 import com.github.laefye.pixelbattle.events.PlayerEvents;
+import com.github.laefye.pixelbattle.modules.DynmapModuleAPI;
 import com.github.laefye.pixelbattle.modules.PixelBattlePlaceholderExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,6 +13,8 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.DynmapCommonAPI;
+import org.dynmap.DynmapCommonAPIListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public final class PixelBattlePlugin extends JavaPlugin {
     private ArrayList<Menu> menuList = new ArrayList<>();
     private ArrayList<Member> members = new ArrayList<>();
     private PixelBattlePlaceholderExtension pixelBattlePlaceholderExtension;
+    private DynmapModuleAPI dynmapModuleAPI;
     private TopList topList = new TopList();
     private LangConfig langConfig = new LangConfig(this);
 
@@ -30,7 +34,7 @@ public final class PixelBattlePlugin extends JavaPlugin {
         instance = this;
         prepare();
 
-        canvas = new Canvas(this, 256, 256, getServer().getWorld("world"), 0, 319, 0);
+        canvas = new Canvas(this, 2048, 2048, getServer().getWorlds().get(0), -1024, -63, -1024);
         topList.load();
 
         getServer().getPluginManager().registerEvents(new PlayerEvents(this), this);
@@ -38,6 +42,19 @@ public final class PixelBattlePlugin extends JavaPlugin {
             pixelBattlePlaceholderExtension = new PixelBattlePlaceholderExtension(this);
             pixelBattlePlaceholderExtension.register();
         }
+        if(Bukkit.getPluginManager().getPlugin("dynmap") != null) {
+            dynmapModuleAPI = new DynmapModuleAPI(this);
+            DynmapCommonAPIListener.register(dynmapModuleAPI);
+        }
+
+        for (var player : getServer().getOnlinePlayers()) {
+            if (getMember(player) == null) {
+                var member = new Member(this, player);
+                member.load();
+                getMembers().add(member);
+            }
+        }
+
         getCommand("pixelbattle").setExecutor(new PixelBattleCommand(this));
     }
 
@@ -107,5 +124,9 @@ public final class PixelBattlePlugin extends JavaPlugin {
         if (!new File(SomeConstants.MEMBERS_FOLDER).exists()) {
             new File(SomeConstants.MEMBERS_FOLDER).mkdir();
         }
+    }
+
+    public DynmapModuleAPI getDynmapModuleAPI() {
+        return dynmapModuleAPI;
     }
 }

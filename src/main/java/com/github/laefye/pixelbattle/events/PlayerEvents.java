@@ -1,10 +1,7 @@
 package com.github.laefye.pixelbattle.events;
 
-import com.github.laefye.pixelbattle.Color;
-import com.github.laefye.pixelbattle.Member;
-import com.github.laefye.pixelbattle.PixelBattlePlugin;
+import com.github.laefye.pixelbattle.*;
 import com.github.laefye.pixelbattle.menus.Palette;
-import com.github.laefye.pixelbattle.SomeConstants;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -65,10 +63,10 @@ public class PlayerEvents implements Listener {
         if (needToSkip(event.getPlayer()))
             return;
         var slot = event.getPlayer().getInventory().getHeldItemSlot();
-        if (slot == SomeConstants.PALLETE_SLOT) {
+        if (slot == SomeConstants.PALLETE_SLOT && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
             new Palette(plugin).show(event.getPlayer());
         }
-        if (slot < 4 && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (slot < 4 && event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
             var member = plugin.getMember(event.getPlayer());
             var block = event.getClickedBlock();
             if (block != null) {
@@ -81,7 +79,14 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onHurt(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player)
-        if (needToSkip(player))
+            if (needToSkip(player))
+                return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        if (needToSkip(event.getPlayer()))
             return;
         event.setCancelled(true);
     }

@@ -1,7 +1,12 @@
 package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.async.AsyncBuilder;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.FallingBlock;
+import org.dynmap.DynmapAPI;
 
 public class Canvas {
     private final int width;
@@ -40,7 +45,9 @@ public class Canvas {
     }
 
     public void set(int x, int y, Color color) {
-        world.setBlockData(beginX + x, beginY,beginZ + y, Colors.getMaterial(color).createBlockData());
+        world.setBlockData(beginX + x, beginY,beginZ + y, Material.AIR.createBlockData());
+        world.spawnFallingBlock(new Location(world, beginX + x + 0.5, beginY + 1, beginZ + y + 0.5), Colors.getMaterial(color).createBlockData());
+        plugin.getDynmapModuleAPI().render(world, beginX + x, beginY,beginZ + y);
     }
 
     private int getPosition(int x, int y) {
@@ -80,5 +87,9 @@ public class Canvas {
         for (var member : plugin.getMembers() ) {
             member.updateInventory();
         }
+    }
+
+    public World getWorld() {
+        return world;
     }
 }
