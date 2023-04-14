@@ -18,8 +18,6 @@ public class LangConfig {
     public LangConfig(PixelBattlePlugin plugin) {
         this.plugin = plugin;
         this.configFile = new File(plugin.getDataFolder(), "lang.yml");
-
-        loadConfig();
     }
 
     public void loadConfig() {

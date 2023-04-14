@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public final class PixelBattlePlugin extends JavaPlugin {
@@ -27,6 +28,8 @@ public final class PixelBattlePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        prepare();
+
         canvas = new Canvas(this, 256, 256, getServer().getWorld("world"), 0, 319, 0);
         topList.load();
 
@@ -36,6 +39,11 @@ public final class PixelBattlePlugin extends JavaPlugin {
             pixelBattlePlaceholderExtension.register();
         }
         getCommand("pixelbattle").setExecutor(new PixelBattleCommand(this));
+    }
+
+    private void prepare() {
+        createFolders();
+        langConfig.loadConfig();
     }
 
     public static PixelBattlePlugin getInstance() {
@@ -90,5 +98,14 @@ public final class PixelBattlePlugin extends JavaPlugin {
 
     public LangConfig getLangConfig() {
         return langConfig;
+    }
+
+    public void createFolders() {
+        if (!new File(SomeConstants.PLUGIN_FOLDER).exists()) {
+            new File(SomeConstants.PLUGIN_FOLDER).mkdir();
+        }
+        if (!new File(SomeConstants.MEMBERS_FOLDER).exists()) {
+            new File(SomeConstants.MEMBERS_FOLDER).mkdir();
+        }
     }
 }
