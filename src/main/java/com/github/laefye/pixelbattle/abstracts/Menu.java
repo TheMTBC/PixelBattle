@@ -8,14 +8,19 @@ import org.bukkit.inventory.Inventory;
 public abstract class Menu {
     protected Inventory inventory;
     protected Player player;
+    protected PixelBattlePlugin plugin;
 
     protected void createInventory(int size, String title) {
         inventory = Bukkit.createInventory(null, size, title);
     }
 
+    protected Menu(PixelBattlePlugin plugin) {
+        this.plugin = plugin;
+    }
+
     public void show(Player player) {
         this.player = player;
-        PixelBattlePlugin.getInstance().getMenuList().add(this);
+        plugin.getMenuList().add(this);
         player.openInventory(inventory);
     }
 

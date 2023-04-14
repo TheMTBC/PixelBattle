@@ -46,7 +46,9 @@ public class Member {
         var inventory = getInventory();
         inventory.clear();
         if (plugin.getCanvas().getMode() == Canvas.Mode.Build) {
-            inventory.setItem(SomeConstants.PALLETE_SLOT, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayName("Choose Color").getItemStack());
+            inventory.setItem(SomeConstants.PALLETE_SLOT, new ItemBuilder(Material.DIAMOND_SWORD)
+                    .setDisplayName(plugin.getLangConfig().getString("tool-palette"))
+                    .getItemStack());
             updateColorsInInventory();
         }
     }

@@ -51,11 +51,11 @@ public class PixelBattlePlaceholderExtension extends PlaceholderExpansion {
         }
         if (params.equalsIgnoreCase("time")) {
             if (plugin.getCanvas().getMode() == Canvas.Mode.View) {
-                return "View";
+                return plugin.getLangConfig().getString("view-mode");
             } else if (member.allowPlace()) {
-                return "You can build";
+                return plugin.getLangConfig().getString("build-time");
             } else {
-                return "In " + (member.getTime() / 1000) + " seconds";
+                return plugin.getLangConfig().getString("wait-time").formatted(member.getTime() / 1000);
             }
         }
         if (params.equalsIgnoreCase("placed")) {

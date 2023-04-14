@@ -1,0 +1,5 @@
+view-mode: "Зритель"
+build-mode: "Строитель"
+build-time: "Можешь ставить"
+wait-time: "Подожди %d секунд"
+tool-palette: "&r&3Выбор цвета"

@@ -22,6 +22,7 @@ public final class PixelBattlePlugin extends JavaPlugin {
     private ArrayList<Member> members = new ArrayList<>();
     private PixelBattlePlaceholderExtension pixelBattlePlaceholderExtension;
     private TopList topList = new TopList();
+    private LangConfig langConfig = new LangConfig(this);
 
     @Override
     public void onEnable() {
@@ -85,5 +86,9 @@ public final class PixelBattlePlugin extends JavaPlugin {
 
     public TopList getTopList() {
         return topList;
+    }
+
+    public LangConfig getLangConfig() {
+        return langConfig;
     }
 }

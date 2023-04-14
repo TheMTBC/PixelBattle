@@ -66,7 +66,7 @@ public class PlayerEvents implements Listener {
             return;
         var slot = event.getPlayer().getInventory().getHeldItemSlot();
         if (slot == SomeConstants.PALLETE_SLOT) {
-            new Palette().show(event.getPlayer());
+            new Palette(plugin).show(event.getPlayer());
         }
         if (slot < 4 && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             var member = plugin.getMember(event.getPlayer());
