@@ -25,10 +25,6 @@ public class TopList {
                 .limit(3)
                 .collect(Collectors.toList());
         Collections.reverse(topListEntries);
-
-        for (var t : topListEntries) {
-            PixelBattlePlugin.getInstance().getLogger().info(String.valueOf(t));
-        }
     }
 
     public JsonObject getJsonObject() {

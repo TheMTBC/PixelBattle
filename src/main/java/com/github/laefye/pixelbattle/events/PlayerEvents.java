@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -74,6 +75,14 @@ public class PlayerEvents implements Listener {
                 member.place(block.getX(), block.getY(), block.getZ(), slot);
             }
         }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onHurt(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player)
+        if (needToSkip(player))
+            return;
         event.setCancelled(true);
     }
 }
