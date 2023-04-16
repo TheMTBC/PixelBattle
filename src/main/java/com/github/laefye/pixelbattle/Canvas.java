@@ -1,13 +1,9 @@
 package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.async.AsyncBuilder;
-import com.github.laefye.pixelbattle.wrappers.SetInfo;
-import org.bukkit.Location;
+import com.github.laefye.pixelbattle.wrappers.SetBlockInfo;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.FallingBlock;
-import org.dynmap.DynmapAPI;
 
 public class Canvas {
     private final int width;
@@ -45,7 +41,7 @@ public class Canvas {
         asyncBuilder.run();
     }
 
-    public void set(int x, int y, Material material, SetInfo info) {
+    public void set(int x, int y, Material material, SetBlockInfo info) {
         if (info.getDelay() == 0) {
             world.setBlockData(beginX + x, beginY,beginZ + y, material.createBlockData());
             if (info.isTriggerDynmap() && plugin.getDynmapModuleAPI() != null) {
@@ -56,7 +52,7 @@ public class Canvas {
         }
     }
 
-    public void set(int x, int y, int z, Material material, SetInfo info) {
+    public void set(int x, int y, int z, Material material, SetBlockInfo info) {
         if (x - beginX < 0 || x - beginX >= width)
             return;
         if (y != beginY)

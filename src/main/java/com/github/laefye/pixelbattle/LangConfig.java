@@ -29,6 +29,9 @@ public class LangConfig {
     }
 
     public String getString(String path) {
+        if (!config.contains(path)) {
+            return path;
+        }
         var str = config.getString(path);
         return ChatColor.translateAlternateColorCodes('&', str == null ? "" : str);
     }

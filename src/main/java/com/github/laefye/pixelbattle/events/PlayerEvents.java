@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class PlayerEvents implements Listener {
     private PixelBattlePlugin plugin;
@@ -95,5 +96,10 @@ public class PlayerEvents implements Listener {
         if (getMember(event.getPlayer()) == null)
             return;
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onClick(PlayerSwapHandItemsEvent e) {
+        e.setCancelled(true);
     }
 }

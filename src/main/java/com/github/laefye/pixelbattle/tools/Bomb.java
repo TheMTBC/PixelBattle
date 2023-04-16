@@ -5,7 +5,7 @@ import com.github.laefye.pixelbattle.Member;
 import com.github.laefye.pixelbattle.SomeConstants;
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
-import com.github.laefye.pixelbattle.wrappers.SetInfo;
+import com.github.laefye.pixelbattle.wrappers.SetBlockInfo;
 import org.bukkit.Material;
 
 public class Bomb extends Tool {
@@ -43,7 +43,7 @@ public class Bomb extends Tool {
         if (color == null || count <= 0) {
             return false;
         }
-        var info = new SetInfo();
+        var info = new SetBlockInfo();
         var result = 0;
         result += set(canvas, x, y, z - 2, color, info.copy().delay(6).triggerDynmap());
 
@@ -53,7 +53,7 @@ public class Bomb extends Tool {
 
         result += set(canvas, x - 2, y, z, color, info.copy().delay(6).triggerDynmap());
         result += set(canvas, x - 1, y, z, color, info.copy().delay(3));
-        result += set(canvas, x, y, z, color, new SetInfo().triggerDynmap());
+        result += set(canvas, x, y, z, color, new SetBlockInfo().triggerDynmap());
         result += set(canvas, x + 1, y, z, color, info.copy().delay(3));
         result += set(canvas, x + 2, y, z, color, info.copy().delay(6).triggerDynmap());
 
@@ -80,7 +80,7 @@ public class Bomb extends Tool {
         return true;
     }
 
-    public int set(Canvas canvas, int x, int y, int z, Material material, SetInfo base) {
+    public int set(Canvas canvas, int x, int y, int z, Material material, SetBlockInfo base) {
         if (canvas.get(x, y, z) == material) {
             return 0;
         }

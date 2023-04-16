@@ -1,10 +1,10 @@
 package com.github.laefye.pixelbattle.wrappers;
 
-public class SetInfo {
+public class SetBlockInfo {
     private boolean toTriggerDynmap = false;
     private long delay = 0;
 
-    public SetInfo triggerDynmap() {
+    public SetBlockInfo triggerDynmap() {
         this.toTriggerDynmap = true;
         return this;
     }
@@ -13,13 +13,13 @@ public class SetInfo {
         return toTriggerDynmap;
     }
 
-    public SetInfo delay(long delay) {
+    public SetBlockInfo delay(long delay) {
         this.delay = delay;
         return this;
     }
 
-    public SetInfo copy() {
-        var clone = new SetInfo();
+    public SetBlockInfo copy() {
+        var clone = new SetBlockInfo();
         clone.delay = delay;
         clone.toTriggerDynmap = toTriggerDynmap;
         return clone;

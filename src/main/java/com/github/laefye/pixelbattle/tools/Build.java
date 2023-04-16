@@ -4,7 +4,7 @@ import com.github.laefye.pixelbattle.Member;
 import com.github.laefye.pixelbattle.SomeConstants;
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
-import com.github.laefye.pixelbattle.wrappers.SetInfo;
+import com.github.laefye.pixelbattle.wrappers.SetBlockInfo;
 import org.bukkit.Material;
 
 public class Build extends Tool {
@@ -25,7 +25,7 @@ public class Build extends Tool {
         var canvas = member.getPlugin().getCanvas();
         if (color == null || canvas.get(x, y, z) == color)
             return false;
-        canvas.set(x, y, z, getColor(slot), new SetInfo().triggerDynmap());
+        canvas.set(x, y, z, getColor(slot), new SetBlockInfo().triggerDynmap());
         member.getLuck().add();
         member.place(1);
         member.getTimeManipulator().setDelay(SomeConstants.DELAY);
