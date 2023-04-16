@@ -15,7 +15,7 @@ public class Palette extends Menu {
     public Palette(PixelBattlePlugin plugin, Consumer<Material> consumer) {
         super(plugin);
         this.consumer = consumer;
-        createInventory(9 * 3, plugin.getLangConfig().getString("tool-palette"));
+        createInventory(9 * 6, plugin.getLangConfig().getString("tool-palette"));
         for (int i = 0; i < SomeConstants.PALETTE.length; i++) {
             inventory.setItem(i, new ItemBuilder(SomeConstants.PALETTE[i]).getItemStack());
         }
