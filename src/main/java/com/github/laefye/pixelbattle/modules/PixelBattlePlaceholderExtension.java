@@ -52,7 +52,7 @@ public class PixelBattlePlaceholderExtension extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("time")) {
             if (plugin.getCanvas().getMode() == Canvas.Mode.View) {
                 return plugin.getLangConfig().getString("view-mode");
-            } else if (member.allowPlace()) {
+            } else if (member.allowUse()) {
                 return plugin.getLangConfig().getString("build-time");
             } else {
                 return plugin.getLangConfig().getString("wait-time").formatted(member.getTime() / 1000);

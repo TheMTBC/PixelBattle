@@ -1,5 +1,7 @@
 package com.github.laefye.pixelbattle;
 
+import com.github.laefye.pixelbattle.abstracts.Tool;
+import com.github.laefye.pixelbattle.tools.Build;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
 import com.github.laefye.pixelbattle.wrappers.JsonIO;
 import com.google.gson.JsonObject;
@@ -12,14 +14,9 @@ import java.util.UUID;
 public class Member {
     private PixelBattlePlugin plugin;
     private final UUID id;
-    private final Color[] colors = new Color[]{
-            null,
-            null,
-            null,
-            null,
-    };
     private int placed = 0;
-    private long lastPlaceTimestamp = 0;
+    private long lastUseTimestamp = 0;
+    private final Build build = new Build(this);
 
     public Player getPlayer() {
         return plugin.getServer().getPlayer(id);
@@ -30,7 +27,7 @@ public class Member {
         return player != null && player.isOnline();
     }
 
-    private Inventory getInventory() {
+    public Inventory getInventory() {
         return getPlayer().getInventory();
     }
 
@@ -49,30 +46,7 @@ public class Member {
             inventory.setItem(SomeConstants.PALLETE_SLOT, new ItemBuilder(Material.DIAMOND_SWORD)
                     .setDisplayName(plugin.getLangConfig().getString("tool-palette"))
                     .getItemStack());
-            updateColorsInInventory();
-        }
-    }
-
-    public void addColorToInventory(Color color) {
-        colors[3] = colors[2];
-        colors[2] = colors[1];
-        colors[1] = colors[0];
-        colors[0] = color;
-        updateColorsInInventory();
-    }
-
-    public Color getColorFromInventory(int i) {
-        return colors[i];
-    }
-
-    private void updateColorsInInventory() {
-        var inventory = getInventory();
-        for (int i = 0; i < colors.length; i++) {
-            if (colors[i] != null) {
-                inventory.setItem(i, new ItemBuilder(Colors.getMaterial(colors[i])).getItemStack());
-            } else {
-                inventory.setItem(i, null);
-            }
+            build.updateColors();
         }
     }
 
@@ -80,28 +54,24 @@ public class Member {
         return id;
     }
 
-    public void place(int x, int y, int z, int slot) {
+    public void use(Tool tool, int x, int y, int z, int slot) {
         var canvas = plugin.getCanvas();
         if (canvas.getMode() != Canvas.Mode.Build)
             return;
-        var color = getColorFromInventory(slot);
-        if (color == null || canvas.get(x, y, z) == color)
-            return;
-        if (!allowPlace()) {
+        if (!allowUse()) {
             return;
         }
-        canvas.set(x, y, z, getColorFromInventory(slot));
-        lastPlaceTimestamp = System.currentTimeMillis();
-        placed += 1;
+        tool.use(x, y, z, slot);
+        lastUseTimestamp = System.currentTimeMillis();
         plugin.getTopList().sort(this);
     }
 
     public long getTime() {
-        return Math.max(0, SomeConstants.DELAY - System.currentTimeMillis() + lastPlaceTimestamp);
+        return Math.max(0, SomeConstants.DELAY - System.currentTimeMillis() + lastUseTimestamp);
     }
 
-    public boolean allowPlace() {
-        return System.currentTimeMillis() - lastPlaceTimestamp > SomeConstants.DELAY;
+    public boolean allowUse() {
+        return System.currentTimeMillis() - lastUseTimestamp > SomeConstants.DELAY;
     }
 
     public JsonObject getJsonObject() {
@@ -123,5 +93,17 @@ public class Member {
 
     public int getPlaced() {
         return placed;
+    }
+
+    public void place() {
+        placed++;
+    }
+
+    public PixelBattlePlugin getPlugin() {
+        return plugin;
+    }
+
+    public Build getBuild() {
+        return build;
     }
 }

@@ -34,20 +34,20 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    private boolean needToSkip(HumanEntity entity) {
-        return plugin.getMember((Player) entity) == null;
+    private Member getMember(HumanEntity entity) {
+        return plugin.getMember((Player) entity);
     }
 
     @EventHandler
     public void onCloseInventory(InventoryCloseEvent event) {
-        if (needToSkip(event.getPlayer()))
+        if (getMember(event.getPlayer()) == null)
             return;
         plugin.getMenuList().remove(PixelBattlePlugin.getInstance().getMenu(event.getInventory()));
     }
 
     @EventHandler
     public void onClickInventory(InventoryClickEvent event) {
-        if (needToSkip(event.getWhoClicked()))
+        if (getMember(event.getWhoClicked()) == null)
             return;
         var menu = plugin.getMenu(event.getClickedInventory());
         if (menu != null) {
@@ -60,17 +60,17 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (needToSkip(event.getPlayer()))
+        var member = getMember(event.getPlayer());
+        if (member == null)
             return;
         var slot = event.getPlayer().getInventory().getHeldItemSlot();
         if (slot == SomeConstants.PALLETE_SLOT && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
-            new Palette(plugin).show(event.getPlayer());
+            new Palette(plugin, color -> member.getBuild().addColor(color)).show(event.getPlayer());
         }
         if (slot < 4 && event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
-            var member = plugin.getMember(event.getPlayer());
             var block = event.getClickedBlock();
             if (block != null) {
-                member.place(block.getX(), block.getY(), block.getZ(), slot);
+                member.use(member.getBuild(), block.getX(), block.getY(), block.getZ(), slot);
             }
         }
         event.setCancelled(true);
@@ -79,14 +79,14 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onHurt(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player player)
-            if (needToSkip(player))
+            if (getMember(player) == null)
                 return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-        if (needToSkip(event.getPlayer()))
+        if (getMember(event.getPlayer()) == null)
             return;
         event.setCancelled(true);
     }
