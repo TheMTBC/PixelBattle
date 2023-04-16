@@ -2,6 +2,7 @@ package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.playerthings.Luck;
+import com.github.laefye.pixelbattle.playerthings.TimeManipulator;
 import com.github.laefye.pixelbattle.tools.Bomb;
 import com.github.laefye.pixelbattle.tools.Build;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
@@ -17,10 +18,10 @@ public class Member {
     private PixelBattlePlugin plugin;
     private final UUID id;
     private int placed = 0;
-    private long lastUseTimestamp = 0;
     private final Build build = new Build(this);
     private final Bomb bomb = new Bomb(this);
     private final Luck luck = new Luck(this);
+    private final TimeManipulator timeManipulator = new TimeManipulator();
 
     public Player getPlayer() {
         return plugin.getServer().getPlayer(id);
@@ -62,22 +63,13 @@ public class Member {
         var canvas = plugin.getCanvas();
         if (canvas.getMode() != Canvas.Mode.Build)
             return;
-        if (!allowUse()) {
+        if (!timeManipulator.allow()) {
             return;
         }
         if (!tool.use(x, y, z, slot)) {
             return;
         }
-        lastUseTimestamp = System.currentTimeMillis();
         plugin.getTopList().sort(this);
-    }
-
-    public long getTime() {
-        return Math.max(0, SomeConstants.DELAY - System.currentTimeMillis() + lastUseTimestamp);
-    }
-
-    public boolean allowUse() {
-        return System.currentTimeMillis() - lastUseTimestamp > SomeConstants.DELAY;
     }
 
     public JsonObject getJsonObject() {
@@ -122,5 +114,9 @@ public class Member {
 
     public Luck getLuck() {
         return luck;
+    }
+
+    public TimeManipulator getTimeManipulator() {
+        return timeManipulator;
     }
 }

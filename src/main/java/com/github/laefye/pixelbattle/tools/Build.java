@@ -1,18 +1,18 @@
 package com.github.laefye.pixelbattle.tools;
 
-import com.github.laefye.pixelbattle.Color;
-import com.github.laefye.pixelbattle.Colors;
 import com.github.laefye.pixelbattle.Member;
+import com.github.laefye.pixelbattle.SomeConstants;
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
 import com.github.laefye.pixelbattle.wrappers.SetInfo;
+import org.bukkit.Material;
 
 public class Build extends Tool {
     public Build(Member member) {
         super(member);
     }
 
-    private final Color[] colors = new Color[]{
+    private final Material[] materials = new Material[]{
             null,
             null,
             null,
@@ -28,26 +28,27 @@ public class Build extends Tool {
         canvas.set(x, y, z, getColor(slot), new SetInfo().triggerDynmap());
         member.getLuck().add();
         member.place(1);
+        member.getTimeManipulator().setDelay(SomeConstants.DELAY);
         return true;
     }
 
-    public void addColor(Color color) {
-        colors[3] = colors[2];
-        colors[2] = colors[1];
-        colors[1] = colors[0];
-        colors[0] = color;
+    public void addMaterial(Material material) {
+        materials[3] = materials[2];
+        materials[2] = materials[1];
+        materials[1] = materials[0];
+        materials[0] = material;
         updateColors();
     }
 
-    public Color getColor(int i) {
-        return colors[i];
+    public Material getColor(int i) {
+        return materials[i];
     }
 
     public void updateColors() {
         var inventory = member.getInventory();
-        for (int i = 0; i < colors.length; i++) {
-            if (colors[i] != null) {
-                inventory.setItem(i, new ItemBuilder(Colors.getMaterial(colors[i])).getItemStack());
+        for (int i = 0; i < materials.length; i++) {
+            if (materials[i] != null) {
+                inventory.setItem(i, new ItemBuilder(materials[i]).getItemStack());
             } else {
                 inventory.setItem(i, null);
             }

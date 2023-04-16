@@ -1,5 +1,7 @@
 package com.github.laefye.pixelbattle;
 
+import org.bukkit.Material;
+
 public class SomeConstants {
     public static final int PALLETE_SLOT = 4;
     public static final int BOMB_SLOT = 5;
@@ -18,4 +20,23 @@ public class SomeConstants {
         }
         return n + "kk";
     }
+
+    public static Material[] PALETTE = {
+            Material.WHITE_CONCRETE,
+            Material.ORANGE_CONCRETE,
+            Material.MAGENTA_CONCRETE,
+            Material.LIGHT_BLUE_CONCRETE,
+            Material.YELLOW_CONCRETE,
+            Material.LIME_CONCRETE,
+            Material.PINK_CONCRETE,
+            Material.GRAY_CONCRETE,
+            Material.LIGHT_GRAY_CONCRETE,
+            Material.CYAN_CONCRETE,
+            Material.PURPLE_CONCRETE,
+            Material.BLUE_CONCRETE,
+            Material.BROWN_CONCRETE,
+            Material.GREEN_CONCRETE,
+            Material.RED_CONCRETE,
+            Material.BLACK_CONCRETE,
+    };
 }

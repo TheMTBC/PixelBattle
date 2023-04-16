@@ -11,7 +11,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -66,7 +65,7 @@ public class PlayerEvents implements Listener {
             return;
         var slot = event.getPlayer().getInventory().getHeldItemSlot();
         if (slot == SomeConstants.PALLETE_SLOT && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
-            new Palette(plugin, color -> member.getBuild().addColor(color)).show(event.getPlayer());
+            new Palette(plugin, color -> member.getBuild().addMaterial(color)).show(event.getPlayer());
         }
         if (slot < 4 && event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
             var block = event.getClickedBlock();

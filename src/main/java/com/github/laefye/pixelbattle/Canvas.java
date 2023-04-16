@@ -36,7 +36,7 @@ public class Canvas {
 
     public void fill() {
         var asyncBuilder = new AsyncBuilder(plugin);
-        var data = Colors.getMaterial(Color.WHITE).createBlockData();
+        var data = Material.WHITE_CONCRETE.createBlockData();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 asyncBuilder.put(beginX + x, beginY, beginZ + y, world, data);
@@ -45,33 +45,32 @@ public class Canvas {
         asyncBuilder.run();
     }
 
-    public void set(int x, int y, Color color, SetInfo info) {
+    public void set(int x, int y, Material material, SetInfo info) {
         if (info.getDelay() == 0) {
-            world.setBlockData(beginX + x, beginY,beginZ + y, Material.AIR.createBlockData());
-            world.spawnFallingBlock(new Location(world, beginX + x + 0.5, beginY + 1, beginZ + y + 0.5), Colors.getMaterial(color).createBlockData());
+            world.setBlockData(beginX + x, beginY,beginZ + y, material.createBlockData());
             if (info.isTriggerDynmap() && plugin.getDynmapModuleAPI() != null) {
                 plugin.getDynmapModuleAPI().render(world, beginX + x, beginY,beginZ + y);
             }
         } else {
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> set(x, y, color, info.copy().delay(0)), info.getDelay());
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> set(x, y, material, info.copy().delay(0)), info.getDelay());
         }
     }
 
-    public void set(int x, int y, int z, Color color, SetInfo info) {
+    public void set(int x, int y, int z, Material material, SetInfo info) {
         if (x - beginX < 0 || x - beginX >= width)
             return;
         if (y != beginY)
             return;
         if (z - beginZ < 0 || z - beginZ >= height)
             return;
-        set(x - beginX, z - beginZ, color, info);
+        set(x - beginX, z - beginZ, material, info);
     }
 
-    public Color get(int x, int y) {
-        return Colors.getColor(world.getBlockAt(beginX + x, beginY, beginZ + y).getType());
+    public Material get(int x, int y) {
+        return world.getBlockAt(beginX + x, beginY, beginZ + y).getType();
     }
 
-    public Color get(int x, int y, int z) {
+    public Material get(int x, int y, int z) {
         if (x - beginX < 0 || x - beginX >= width)
             return null;
         if (y != beginY)
@@ -90,9 +89,5 @@ public class Canvas {
         for (var member : plugin.getMembers() ) {
             member.updateInventory();
         }
-    }
-
-    public World getWorld() {
-        return world;
     }
 }

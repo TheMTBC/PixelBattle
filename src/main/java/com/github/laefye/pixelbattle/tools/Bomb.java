@@ -1,7 +1,6 @@
 package com.github.laefye.pixelbattle.tools;
 
 import com.github.laefye.pixelbattle.Canvas;
-import com.github.laefye.pixelbattle.Color;
 import com.github.laefye.pixelbattle.Member;
 import com.github.laefye.pixelbattle.SomeConstants;
 import com.github.laefye.pixelbattle.abstracts.Tool;
@@ -46,37 +45,46 @@ public class Bomb extends Tool {
         }
         var info = new SetInfo();
         var result = 0;
-        result += set(canvas, x, y, z-2, color, info.copy().delay(6).triggerDynmap());
+        result += set(canvas, x, y, z - 2, color, info.copy().delay(6).triggerDynmap());
 
-        result += set(canvas, x-1, y, z-1, color, info.copy().delay(4));
-        result += set(canvas, x, y, z-1, color, info.copy().delay(3));
-        result += set(canvas, x+1, y, z-1, color, info.copy().delay(4));
+        result += set(canvas, x - 1, y, z - 1, color, info.copy().delay(4));
+        result += set(canvas, x, y, z - 1, color, info.copy().delay(3));
+        result += set(canvas, x + 1, y, z - 1, color, info.copy().delay(4));
 
-        result += set(canvas, x-2, y, z, color, info.copy().delay(6).triggerDynmap());
-        result += set(canvas, x-1, y, z, color, info.copy().delay(3));
+        result += set(canvas, x - 2, y, z, color, info.copy().delay(6).triggerDynmap());
+        result += set(canvas, x - 1, y, z, color, info.copy().delay(3));
         result += set(canvas, x, y, z, color, new SetInfo().triggerDynmap());
-        result += set(canvas, x+1, y, z, color, info.copy().delay(3));
-        result += set(canvas, x+2, y, z, color, info.copy().delay(6).triggerDynmap());
+        result += set(canvas, x + 1, y, z, color, info.copy().delay(3));
+        result += set(canvas, x + 2, y, z, color, info.copy().delay(6).triggerDynmap());
 
-        result += set(canvas, x-1, y, z+1, color, info.copy().delay(4));
-        result += set(canvas, x, y, z+1, color, info.copy().delay(3));
-        result += set(canvas, x+1, y, z+1, color, info.copy().delay(4));
+        result += set(canvas, x - 1, y, z + 1, color, info.copy().delay(4));
+        result += set(canvas, x, y, z + 1, color, info.copy().delay(3));
+        result += set(canvas, x + 1, y, z + 1, color, info.copy().delay(4));
 
-        result += set(canvas, x, y, z+2, color, info.copy().delay(6).triggerDynmap());
+        result += set(canvas, x, y, z + 2, color, info.copy().delay(6).triggerDynmap());
 
-        if (result != 0) {
-            count--;
+        if (result == 0) {
+            return false;
         }
+
+        count--;
         updateInventory();
         member.place(result);
-        return result != 0;
+        if (result == 1) {
+            member.getTimeManipulator().setDelay(SomeConstants.DELAY);
+        } else if (result < 5) {
+            member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 2));
+        } else {
+            member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 5));
+        }
+        return true;
     }
 
-    public int set(Canvas canvas, int x, int y, int z, Color color, SetInfo base) {
-        if (canvas.get(x, y, z) == color) {
+    public int set(Canvas canvas, int x, int y, int z, Material material, SetInfo base) {
+        if (canvas.get(x, y, z) == material) {
             return 0;
         }
-        canvas.set(x, y, z, color, base);
+        canvas.set(x, y, z, material, base);
         return 1;
     }
 }
