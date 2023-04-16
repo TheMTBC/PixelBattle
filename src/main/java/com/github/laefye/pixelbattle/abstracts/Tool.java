@@ -10,5 +10,5 @@ public abstract class Tool {
         this.member = member;
     }
 
-    public abstract void use(int x, int y, int z, int slot);
+    public abstract boolean use(int x, int y, int z, int slot);
 }

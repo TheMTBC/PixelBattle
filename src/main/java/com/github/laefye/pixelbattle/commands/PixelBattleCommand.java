@@ -5,6 +5,7 @@ import com.github.laefye.pixelbattle.PixelBattlePlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PixelBattleCommand implements CommandExecutor {
@@ -26,6 +27,11 @@ public class PixelBattleCommand implements CommandExecutor {
             }
             if (args[0].equalsIgnoreCase("build")) {
                 plugin.getCanvas().setMode(Canvas.Mode.Build);
+            }
+            if (args[0].equalsIgnoreCase("bomb")) {
+                var bomb = plugin.getMember((Player) sender).getBomb();
+                bomb.setCount(bomb.getCount()+1);
+                bomb.updateInventory();
             }
         }
         return true;

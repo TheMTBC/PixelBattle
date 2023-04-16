@@ -5,6 +5,7 @@ import com.github.laefye.pixelbattle.Colors;
 import com.github.laefye.pixelbattle.Member;
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
+import com.github.laefye.pixelbattle.wrappers.SetInfo;
 
 public class Build extends Tool {
     public Build(Member member) {
@@ -19,13 +20,14 @@ public class Build extends Tool {
     };
 
     @Override
-    public void use(int x, int y, int z, int slot) {
+    public boolean use(int x, int y, int z, int slot) {
         var color = getColor(slot);
         var canvas = member.getPlugin().getCanvas();
         if (color == null || canvas.get(x, y, z) == color)
-            return;
-        canvas.set(x, y, z, getColor(slot));
-        member.place();
+            return false;
+        canvas.set(x, y, z, getColor(slot), new SetInfo().triggerDynmap());
+        member.place(1);
+        return true;
     }
 
     public void addColor(Color color) {

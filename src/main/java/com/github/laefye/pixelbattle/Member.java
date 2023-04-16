@@ -1,6 +1,7 @@
 package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.abstracts.Tool;
+import com.github.laefye.pixelbattle.tools.Bomb;
 import com.github.laefye.pixelbattle.tools.Build;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
 import com.github.laefye.pixelbattle.wrappers.JsonIO;
@@ -17,6 +18,7 @@ public class Member {
     private int placed = 0;
     private long lastUseTimestamp = 0;
     private final Build build = new Build(this);
+    private final Bomb bomb = new Bomb(this);
 
     public Player getPlayer() {
         return plugin.getServer().getPlayer(id);
@@ -34,7 +36,6 @@ public class Member {
     public Member(PixelBattlePlugin plugin, Player player) {
         this.plugin = plugin;
         id = player.getUniqueId();
-        updateInventory();
     }
 
     public void updateInventory() {
@@ -46,6 +47,7 @@ public class Member {
             inventory.setItem(SomeConstants.PALLETE_SLOT, new ItemBuilder(Material.DIAMOND_SWORD)
                     .setDisplayName(plugin.getLangConfig().getString("tool-palette"))
                     .getItemStack());
+            bomb.updateInventory();
             build.updateColors();
         }
     }
@@ -61,7 +63,9 @@ public class Member {
         if (!allowUse()) {
             return;
         }
-        tool.use(x, y, z, slot);
+        if (!tool.use(x, y, z, slot)) {
+            return;
+        }
         lastUseTimestamp = System.currentTimeMillis();
         plugin.getTopList().sort(this);
     }
@@ -77,6 +81,7 @@ public class Member {
     public JsonObject getJsonObject() {
         var jsonObject = new JsonObject();
         jsonObject.addProperty("placed", placed);
+        jsonObject.addProperty("bombs", bomb.getCount());
         return jsonObject;
     }
 
@@ -87,16 +92,18 @@ public class Member {
     public void load() {
         var jsonObject = JsonIO.load(SomeConstants.MEMBERS_FOLDER + id);
         if (jsonObject != null) {
-            placed = jsonObject.get("placed").getAsInt();
+            placed = jsonObject.get("placed") == null ? 0 : jsonObject.get("placed").getAsInt();
+            bomb.setCount(jsonObject.get("bombs") == null ? 0 : jsonObject.get("bombs").getAsInt());
         }
+        updateInventory();
     }
 
     public int getPlaced() {
         return placed;
     }
 
-    public void place() {
-        placed++;
+    public void place(int count) {
+        placed += count;
     }
 
     public PixelBattlePlugin getPlugin() {
@@ -105,5 +112,9 @@ public class Member {
 
     public Build getBuild() {
         return build;
+    }
+
+    public Bomb getBomb() {
+        return bomb;
     }
 }

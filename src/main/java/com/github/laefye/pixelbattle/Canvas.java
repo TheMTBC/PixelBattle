@@ -1,6 +1,7 @@
 package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.async.AsyncBuilder;
+import com.github.laefye.pixelbattle.wrappers.SetInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -44,24 +45,26 @@ public class Canvas {
         asyncBuilder.run();
     }
 
-    public void set(int x, int y, Color color) {
-        world.setBlockData(beginX + x, beginY,beginZ + y, Material.AIR.createBlockData());
-        world.spawnFallingBlock(new Location(world, beginX + x + 0.5, beginY + 1, beginZ + y + 0.5), Colors.getMaterial(color).createBlockData());
-        plugin.getDynmapModuleAPI().render(world, beginX + x, beginY,beginZ + y);
+    public void set(int x, int y, Color color, SetInfo info) {
+        if (info.getDelay() == 0) {
+            world.setBlockData(beginX + x, beginY,beginZ + y, Material.AIR.createBlockData());
+            world.spawnFallingBlock(new Location(world, beginX + x + 0.5, beginY + 1, beginZ + y + 0.5), Colors.getMaterial(color).createBlockData());
+            if (info.isTriggerDynmap() && plugin.getDynmapModuleAPI() != null) {
+                plugin.getDynmapModuleAPI().render(world, beginX + x, beginY,beginZ + y);
+            }
+        } else {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> set(x, y, color, info.copy().delay(0)), info.getDelay());
+        }
     }
 
-    private int getPosition(int x, int y) {
-        return y * width + x;
-    }
-
-    public void set(int x, int y, int z, Color color) {
+    public void set(int x, int y, int z, Color color, SetInfo info) {
         if (x - beginX < 0 || x - beginX >= width)
             return;
         if (y != beginY)
             return;
         if (z - beginZ < 0 || z - beginZ >= height)
             return;
-        set(x - beginX, z - beginZ, color);
+        set(x - beginX, z - beginZ, color, info);
     }
 
     public Color get(int x, int y) {

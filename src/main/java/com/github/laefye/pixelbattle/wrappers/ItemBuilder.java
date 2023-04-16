@@ -24,4 +24,9 @@ public class ItemBuilder {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
+
+    public ItemBuilder setAmount(int amount) {
+        itemStack.setAmount(amount);
+        return this;
+    }
 }

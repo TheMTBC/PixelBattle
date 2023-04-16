@@ -23,4 +23,10 @@ public class DynmapModuleAPI extends DynmapCommonAPIListener {
             api.triggerRenderOfBlock(world.getName(), x, y, z);
         }
     }
+
+    public void renderCuboid(World world, int bx, int by, int bz, int ex, int ey, int ez) {
+        if (api != null) {
+            api.triggerRenderOfVolume(world.getName(), bx, by, bz, ex, ey, ez);
+        }
+    }
 }

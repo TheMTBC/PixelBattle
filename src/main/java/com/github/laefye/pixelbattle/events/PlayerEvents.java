@@ -73,6 +73,12 @@ public class PlayerEvents implements Listener {
                 member.use(member.getBuild(), block.getX(), block.getY(), block.getZ(), slot);
             }
         }
+        if (slot == SomeConstants.BOMB_SLOT && plugin.getCanvas().getMode() == Canvas.Mode.Build) {
+            var block = event.getClickedBlock();
+            if (block != null) {
+                member.use(member.getBomb(), block.getX(), block.getY(), block.getZ(), slot);
+            }
+        }
         event.setCancelled(true);
     }
 
