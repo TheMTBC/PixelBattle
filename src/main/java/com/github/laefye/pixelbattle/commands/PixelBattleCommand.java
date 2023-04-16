@@ -28,9 +28,18 @@ public class PixelBattleCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("build")) {
                 plugin.getCanvas().setMode(Canvas.Mode.Build);
             }
+        }
+        if (args.length == 3) {
             if (args[0].equalsIgnoreCase("bomb")) {
-                var bomb = plugin.getMember((Player) sender).getBomb();
-                bomb.setCount(bomb.getCount()+1);
+                var player = plugin.getServer().getPlayer(args[1]);
+                var member = plugin.getMember(player);
+                if (member == null) {
+                    sender.sendMessage("not found user");
+                    return false;
+                }
+                var count = Integer.parseInt(args[2]);
+                var bomb = member.getBomb();
+                bomb.setCount(bomb.getCount()+count);
                 bomb.updateInventory();
             }
         }

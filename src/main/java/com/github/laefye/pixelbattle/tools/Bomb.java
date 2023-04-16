@@ -17,7 +17,7 @@ public class Bomb extends Tool {
     }
 
     public void setCount(int count) {
-        this.count = Math.min(count, 50);
+        this.count = Math.min(count, SomeConstants.MAX_BONUS_IN_STACK);
     }
 
     public void updateInventory() {

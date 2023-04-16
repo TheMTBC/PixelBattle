@@ -22,7 +22,7 @@ public class TopList {
         topListEntries = (ArrayList<TopListEntry>) topListEntries
                 .stream()
                 .sorted(Comparator.comparingInt(TopListEntry::placed))
-                .limit(3)
+                .limit(30)
                 .collect(Collectors.toList());
         Collections.reverse(topListEntries);
     }
@@ -53,6 +53,6 @@ public class TopList {
             return "";
         }
         var entry = topListEntries.get(i);
-        return entry.player() + ": " + entry.placed();
+        return entry.player() + ": " + SomeConstants.stringifyInteger(entry.placed());
     }
 }

@@ -26,6 +26,7 @@ public class Build extends Tool {
         if (color == null || canvas.get(x, y, z) == color)
             return false;
         canvas.set(x, y, z, getColor(slot), new SetInfo().triggerDynmap());
+        member.getLuck().add();
         member.place(1);
         return true;
     }

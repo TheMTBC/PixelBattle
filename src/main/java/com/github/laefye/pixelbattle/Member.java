@@ -1,6 +1,7 @@
 package com.github.laefye.pixelbattle;
 
 import com.github.laefye.pixelbattle.abstracts.Tool;
+import com.github.laefye.pixelbattle.playerthings.Luck;
 import com.github.laefye.pixelbattle.tools.Bomb;
 import com.github.laefye.pixelbattle.tools.Build;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
@@ -19,6 +20,7 @@ public class Member {
     private long lastUseTimestamp = 0;
     private final Build build = new Build(this);
     private final Bomb bomb = new Bomb(this);
+    private final Luck luck = new Luck(this);
 
     public Player getPlayer() {
         return plugin.getServer().getPlayer(id);
@@ -116,5 +118,9 @@ public class Member {
 
     public Bomb getBomb() {
         return bomb;
+    }
+
+    public Luck getLuck() {
+        return luck;
     }
 }
