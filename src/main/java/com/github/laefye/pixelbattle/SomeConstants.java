@@ -16,9 +16,9 @@ public class SomeConstants {
             return String.valueOf(n);
         }
         if (n < 1000000) {
-            return n + "k";
+            return n / 1000 + "k";
         }
-        return n + "kk";
+        return n / 1000000 + "kk";
     }
 
     public static Material[] PALETTE = {

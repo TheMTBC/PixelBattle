@@ -4,6 +4,7 @@ main: com.github.laefye.pixelbattle.PixelBattlePlugin
 api-version: 1.19
 author: Laefye
 softdepend:
+  - dynmap
   - PlaceholderAPI
 commands:
   pixelbattle:

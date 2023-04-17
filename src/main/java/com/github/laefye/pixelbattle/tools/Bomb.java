@@ -70,9 +70,9 @@ public class Bomb extends Tool {
         count--;
         updateInventory();
         member.place(result);
-        if (result == 1) {
+        if (result < 3) {
             member.getTimeManipulator().setDelay(SomeConstants.DELAY);
-        } else if (result < 5) {
+        } else if (result < 6) {
             member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 2));
         } else {
             member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 5));

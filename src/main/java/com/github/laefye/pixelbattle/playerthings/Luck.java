@@ -26,6 +26,7 @@ public class Luck {
             var bomb = member.getBomb();
             if (new Random().nextInt(100) > 60 && bomb.getCount() < SomeConstants.MAX_BONUS_IN_STACK) {
                 bomb.setCount(bomb.getCount() + 1);
+                bomb.updateInventory();
             }
         }
     }

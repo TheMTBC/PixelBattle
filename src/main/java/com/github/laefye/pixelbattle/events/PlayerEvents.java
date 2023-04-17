@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerEvents implements Listener {
     private PixelBattlePlugin plugin;
@@ -62,7 +63,7 @@ public class PlayerEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         var member = getMember(event.getPlayer());
-        if (member == null)
+        if (member == null || event.getHand() == EquipmentSlot.OFF_HAND)
             return;
         var slot = event.getPlayer().getInventory().getHeldItemSlot();
         if (slot == SomeConstants.PALLETE_SLOT && plugin.getCanvas().getMode() == Canvas.Mode.Build) {

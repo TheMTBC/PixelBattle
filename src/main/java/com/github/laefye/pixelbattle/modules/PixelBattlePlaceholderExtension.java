@@ -60,7 +60,7 @@ public class PixelBattlePlaceholderExtension extends PlaceholderExpansion {
             }
         }
         if (params.equalsIgnoreCase("placed")) {
-            return SomeConstants.stringifyInteger(member.getPlaced());
+            return String.valueOf(member.getPlaced());
         }
         return "";
     }
