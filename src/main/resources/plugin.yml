@@ -6,6 +6,8 @@ author: Laefye
 softdepend:
   - dynmap
   - PlaceholderAPI
+depend:
+  - Kublik
 commands:
   pixelbattle:
     permission: pixelbattle.pixelbattle

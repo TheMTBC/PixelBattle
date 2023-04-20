@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.md_5.bungee.api.ChatColor;
+import com.github.laefye.kublik.text.Text;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class LangConfig {
 
@@ -33,7 +32,7 @@ public class LangConfig {
             return path;
         }
         var str = config.getString(path);
-        return ChatColor.translateAlternateColorCodes('&', str == null ? "" : str);
+        return Text.format(str == null ? "" : str);
     }
 }
 

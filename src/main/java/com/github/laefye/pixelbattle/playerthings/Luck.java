@@ -17,16 +17,16 @@ public class Luck {
         count++;
         if (count >= 10) {
             giveRandomSomething();
-            count = 0;
         }
     }
 
     private void giveRandomSomething() {
         if (member.getPlayer().hasPermission("pixelbattle.bonus.bomb")) {
             var bomb = member.getBomb();
-            if (new Random().nextInt(100) > 60 && bomb.getCount() < SomeConstants.MAX_BONUS_IN_STACK) {
+            if (new Random().nextInt(100) > 70 && bomb.getCount() < SomeConstants.MAX_BONUS_IN_STACK) {
                 bomb.setCount(bomb.getCount() + 1);
                 bomb.updateInventory();
+                count = 0;
             }
         }
     }

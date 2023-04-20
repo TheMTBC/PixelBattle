@@ -53,6 +53,6 @@ public class TopList {
             return "";
         }
         var entry = topListEntries.get(i);
-        return entry.player() + ": " + SomeConstants.stringifyInteger(entry.placed());
+        return entry.player() + ": " + entry.placed();
     }
 }
