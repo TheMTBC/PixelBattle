@@ -75,7 +75,7 @@ public class Member {
     public JsonObject getJsonObject() {
         var jsonObject = new JsonObject();
         jsonObject.addProperty("placed", placed);
-        jsonObject.addProperty("bombs", bomb.getCount());
+        jsonObject.addProperty("bombs", bomb.getAmount());
         return jsonObject;
     }
 
@@ -87,7 +87,7 @@ public class Member {
         var jsonObject = JsonIO.load(SomeConstants.MEMBERS_FOLDER + id);
         if (jsonObject != null) {
             placed = jsonObject.get("placed") == null ? 0 : jsonObject.get("placed").getAsInt();
-            bomb.setCount(jsonObject.get("bombs") == null ? 0 : jsonObject.get("bombs").getAsInt());
+            bomb.setAmount(jsonObject.get("bombs") == null ? 0 : jsonObject.get("bombs").getAsInt());
         }
         updateInventory();
     }
