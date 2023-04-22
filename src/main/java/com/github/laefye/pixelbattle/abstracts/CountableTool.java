@@ -4,7 +4,7 @@ import com.github.laefye.pixelbattle.Member;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class CountableTool extends Tool {
-    protected int amount = 0;
+    private int amount = 0;
     private int maxInStack = 0;
     private int slot = 0;
 
@@ -16,8 +16,8 @@ public abstract class CountableTool extends Tool {
         return amount;
     }
 
-    protected void subtract(int amount) {
-        this.amount -= amount;
+    protected void subtract() {
+        this.amount -= 1;
     }
 
     protected abstract ItemStack getIcon();

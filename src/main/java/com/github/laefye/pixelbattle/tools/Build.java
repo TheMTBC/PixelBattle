@@ -1,7 +1,6 @@
 package com.github.laefye.pixelbattle.tools;
 
 import com.github.laefye.pixelbattle.Member;
-import com.github.laefye.pixelbattle.SomeConstants;
 import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
 import com.github.laefye.pixelbattle.wrappers.SetBlockInfo;
@@ -28,7 +27,7 @@ public class Build extends Tool {
         canvas.set(x, y, z, getColor(slot), new SetBlockInfo().triggerDynmap());
         member.getLuck().add();
         member.place(1);
-        member.getTimeManipulator().setDelay(SomeConstants.DELAY);
+        member.getTimeManipulator().setDelay(member.getBooster().getReloadTime());
         return true;
     }
 
@@ -37,14 +36,14 @@ public class Build extends Tool {
         materials[2] = materials[1];
         materials[1] = materials[0];
         materials[0] = material;
-        updateColors();
+        updateInventory();
     }
 
     public Material getColor(int i) {
         return materials[i];
     }
 
-    public void updateColors() {
+    public void updateInventory() {
         var inventory = member.getInventory();
         for (int i = 0; i < materials.length; i++) {
             if (materials[i] != null) {

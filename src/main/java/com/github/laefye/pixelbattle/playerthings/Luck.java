@@ -2,6 +2,7 @@ package com.github.laefye.pixelbattle.playerthings;
 
 import com.github.laefye.pixelbattle.Member;
 import com.github.laefye.pixelbattle.SomeConstants;
+import com.github.laefye.pixelbattle.abstracts.CountableTool;
 
 import java.util.Random;
 
@@ -21,20 +22,29 @@ public class Luck {
     }
 
     private void giveRandomSomething() {
-        if (member.getPlayer().hasPermission("pixelbattle.bonus.bomb")) {
-            var bomb = member.getBomb();
-            if (new Random().nextInt(100) > 60 && bomb.getAmount() < SomeConstants.MAX_BONUS_IN_STACK) {
-                bomb.setAmount(bomb.getAmount() + 1);
-                bomb.updateInventory();
+        var random = new Random();
+        if (member.getPlayer().hasPermission("pixelbattle.vip.1")) {
+            var tool = getRandomTool(random);
+            if (random.nextInt(100) > 60) {
+                tool.setAmount(tool.getAmount() + 1);
+                tool.updateInventory();
                 count = 0;
             }
         } else {
-            var bomb = member.getBomb();
-            if (new Random().nextInt(100) > 90 && bomb.getAmount() < SomeConstants.MAX_BONUS_IN_STACK) {
-                bomb.setAmount(bomb.getAmount() + 1);
-                bomb.updateInventory();
+            var tool = getRandomTool(random);
+            if (random.nextInt(100) > 90) {
+                tool.setAmount(tool.getAmount() + 1);
+                tool.updateInventory();
                 count = 0;
             }
+        }
+    }
+
+    private CountableTool getRandomTool(Random random) {
+        if (random.nextInt(100) > 70) {
+            return member.getBooster();
+        } else {
+            return member.getBomb();
         }
     }
 }

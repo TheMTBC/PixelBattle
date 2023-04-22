@@ -53,15 +53,15 @@ public class Bomb extends CountableTool {
             return false;
         }
 
-        amount--;
+        subtract();
         updateInventory();
         member.place(result);
         if (result < 3) {
-            member.getTimeManipulator().setDelay(SomeConstants.DELAY);
+            member.getTimeManipulator().setDelay(member.getBooster().getReloadTime());
         } else if (result < 6) {
-            member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 2));
+            member.getTimeManipulator().setDelay(member.getBooster().getReloadTime() * (result - 2));
         } else {
-            member.getTimeManipulator().setDelay(SomeConstants.DELAY * (result - 5));
+            member.getTimeManipulator().setDelay(member.getBooster().getReloadTime() * (result - 5));
         }
         return true;
     }

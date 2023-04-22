@@ -2,7 +2,6 @@ package com.github.laefye.pixelbattle.modules;
 
 import com.github.laefye.pixelbattle.Canvas;
 import com.github.laefye.pixelbattle.PixelBattlePlugin;
-import com.github.laefye.pixelbattle.SomeConstants;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +57,12 @@ public class PixelBattlePlaceholderExtension extends PlaceholderExpansion {
             } else {
                 return plugin.getLangConfig().getString("wait-time").formatted(member.getTimeManipulator().getTime() / 1000);
             }
+        }
+        if (params.equalsIgnoreCase("booster")) {
+            if (member.getBooster().getTimeManipulator().allow()) {
+                return plugin.getLangConfig().getString("no-use-time");
+            }
+            return plugin.getLangConfig().getString("used-time").formatted(member.getBooster().getTimeManipulator().getTime() / 1000);
         }
         if (params.equalsIgnoreCase("placed")) {
             return String.valueOf(member.getPlaced());

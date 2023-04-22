@@ -4,6 +4,7 @@ import com.github.laefye.pixelbattle.abstracts.Tool;
 import com.github.laefye.pixelbattle.playerthings.Luck;
 import com.github.laefye.pixelbattle.playerthings.TimeManipulator;
 import com.github.laefye.pixelbattle.tools.Bomb;
+import com.github.laefye.pixelbattle.tools.Booster;
 import com.github.laefye.pixelbattle.tools.Build;
 import com.github.laefye.pixelbattle.wrappers.ItemBuilder;
 import com.github.laefye.pixelbattle.wrappers.JsonIO;
@@ -20,6 +21,7 @@ public class Member {
     private int placed = 0;
     private final Build build = new Build(this);
     private final Bomb bomb = new Bomb(this);
+    private final Booster booster = new Booster(this);
     private final Luck luck = new Luck(this);
     private final TimeManipulator timeManipulator = new TimeManipulator();
 
@@ -50,8 +52,9 @@ public class Member {
             inventory.setItem(SomeConstants.PALLETE_SLOT, new ItemBuilder(Material.DIAMOND_SWORD)
                     .setDisplayName(plugin.getLangConfig().getString("tool-palette"))
                     .getItemStack());
+            build.updateInventory();
             bomb.updateInventory();
-            build.updateColors();
+            booster.updateInventory();
         }
     }
 
@@ -76,6 +79,7 @@ public class Member {
         var jsonObject = new JsonObject();
         jsonObject.addProperty("placed", placed);
         jsonObject.addProperty("bombs", bomb.getAmount());
+        jsonObject.addProperty("booster", booster.getAmount());
         return jsonObject;
     }
 
@@ -88,6 +92,7 @@ public class Member {
         if (jsonObject != null) {
             placed = jsonObject.get("placed") == null ? 0 : jsonObject.get("placed").getAsInt();
             bomb.setAmount(jsonObject.get("bombs") == null ? 0 : jsonObject.get("bombs").getAsInt());
+            booster.setAmount(jsonObject.get("booster") == null ? 0 : jsonObject.get("booster").getAsInt());
         }
         updateInventory();
     }
@@ -110,6 +115,10 @@ public class Member {
 
     public Bomb getBomb() {
         return bomb;
+    }
+
+    public Booster getBooster() {
+        return booster;
     }
 
     public Luck getLuck() {
